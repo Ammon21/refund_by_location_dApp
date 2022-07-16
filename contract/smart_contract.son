@@ -1,0 +1,23 @@
+pragma solidity ^0.8.7;
+// SPDX-License-Identifier: MIT
+
+contract fee {
+      address public owner;
+      uint256 public balance;
+
+    constructor(){
+         owner = msg.sender;
+    }
+
+    receive() payable external {
+        balance += msg.value;
+    }
+
+    function withdraw (uint amount, address payable destaddr) public {
+         require(owner == msg.sender, "it has to be an owner");
+         require(amount <= balance, "No insufficent funds" );
+         destaddr.transfer(amount);
+         balance -= amount;
+    }
+       
+}
